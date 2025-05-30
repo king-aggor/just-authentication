@@ -1,0 +1,43 @@
+{
+  "name": "just-authentication",
+  "version": "1.0.0",
+  "description": "A simple authentication API",
+  "main": "app.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "dev": "nodemon src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/king-aggor/just-authentication.git"
+  },
+  "keywords": [
+    "authentication",
+    "authentication",
+    "API",
+    "API",
+    "signup",
+    "login"
+  ],
+  "author": "King Aggor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/king-aggor/just-authentication/issues"
+  },
+  "homepage": "https://github.com/king-aggor/just-authentication#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.18",
+    "@types/express": "^5.0.2",
+    "@types/node": "^22.15.27",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

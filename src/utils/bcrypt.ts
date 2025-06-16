@@ -9,3 +9,15 @@ export const hashPassword = async (password: string) => {
     throw new CustomError("bcrypt error: password hashing failed", 500);
   }
 };
+
+export const comparePassword = async (
+  password: string,
+  hashedPassword: string
+) => {
+  try {
+    const isMatch = await bcrypt.compare(password, hashedPassword);
+    return isMatch;
+  } catch (err: any) {
+    throw new CustomError("bcrypt error: password comparison failed", 500);
+  }
+};

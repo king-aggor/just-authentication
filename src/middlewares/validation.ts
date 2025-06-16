@@ -1,7 +1,6 @@
 import CustomError from "../utils/error";
 
 //signUpData Validation
-
 export const signUpData = async (signUpData: {
   userName: string | undefined;
   email: string;
@@ -29,6 +28,34 @@ export const signUpData = async (signUpData: {
     //if userName exists check if its a string
     if (userName && typeof userName != "string") {
       throw new CustomError("userName must be strings", 400);
+    }
+  } catch (err: any) {
+    throw new CustomError(`Validation Error: ${err.message}`, 400);
+  }
+};
+
+//loginData validation
+export const login = async (loginData: {
+  email: string | undefined;
+  userName: string | undefined;
+  password: string;
+}) => {
+  const { email, userName, password } = loginData;
+  try {
+    if (email && typeof email != "string") {
+      throw new CustomError(`email must be a string`, 400);
+    }
+    if (userName && typeof userName != "string") {
+      throw new CustomError(`UserName must be a string`, 400);
+    }
+    if (!password) {
+      throw new CustomError(`password is required`, 400);
+    }
+    if (typeof password != "string") {
+      throw new CustomError(`password must be astring`, 400);
+    }
+    if (password.length < 6) {
+      throw new CustomError(`password characters must be 6 or more`, 400);
     }
   } catch (err: any) {
     throw new CustomError(`Validation Error: ${err.message}`, 400);

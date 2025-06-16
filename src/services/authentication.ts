@@ -1,6 +1,7 @@
 // @ts-ignore
 import { createClient } from "redis-mock";
 import CustomError from "../utils/error";
+import * as bcrypt from "../utils/bcrypt";
 
 const client = createClient();
 
@@ -77,6 +78,49 @@ export const createUser = async (signUpData: {
   } catch (err: any) {
     throw new CustomError(
       `Service Error: ${err.message || "Unable to signup user"}`,
+      err.statusCode || 500
+    );
+  }
+};
+
+//userLogin
+export const userLogin = async (loginData: {
+  email: string | undefined;
+  userName: string | undefined;
+  password: string;
+}) => {
+  const { email, userName, password } = loginData;
+  try {
+    let userData: {
+      userName: string | undefined;
+      email: string;
+      password: string;
+    } | null = null;
+
+    // Find user by email or username
+    if (email) {
+      const rawData = await redisGet(`user:${email}`);
+      userData = rawData ? JSON.parse(rawData) : null;
+    } else if (userName) {
+      const rawData = await redisGet(`username:${userName}`);
+      userData = rawData ? JSON.parse(rawData) : null;
+    }
+
+    if (!userData) {
+      throw new CustomError("User does not exist", 404);
+    }
+
+    //compare passwords
+    const hashedPassword = userData.password;
+    const isMatch = await bcrypt.comparePassword(password, hashedPassword);
+    if (!isMatch) {
+      throw new CustomError("Wrong password", 401);
+    }
+
+    return userData;
+  } catch (err: any) {
+    throw new CustomError(
+      `Service Error: ${err.message || "Unable to login user"}`,
       err.statusCode || 500
     );
   }
